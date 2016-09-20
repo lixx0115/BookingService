@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Booking
 {
-    public class ConsumerBroker
+    public static class ConsumerBroker
     {
+        public static Consumer GetConsumer(string id)
+        {
+            return new Consumer();
+        }
     }
 }
