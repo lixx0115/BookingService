@@ -8,6 +8,7 @@ namespace Booking
 {
     class BookableOwner
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public Contact Contact { get; set; }

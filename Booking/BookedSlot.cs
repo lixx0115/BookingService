@@ -8,14 +8,14 @@ namespace Booking
 {
     public class BookedSlot
     {
-       public string Id { get; set; }
+       public Guid Id { get; set; }
        public DateTimeOffset Start { get; set; }
 
        public DateTimeOffset End { get; set; }
 
        public List<string> Consumers { get; set; } 
 
-       public string BookableId { get; set; }
+       public Guid BookableId { get; set; }
 
        public string AdditionalNotes { get; set; }
 

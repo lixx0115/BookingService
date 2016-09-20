@@ -8,6 +8,14 @@ namespace Booking
 {
     public class Bookable
     {
+        public Bookable() { }
+
+        public Bookable(Guid id)
+        {
+            this.Id = id;
+        }
+        public Guid Id { get; set; }
+
         public List<BookedSlot> BookedSlots { get; set; }
         public string Name { get; set; }
 
