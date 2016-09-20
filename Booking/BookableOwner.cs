@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+ 
 
 namespace Booking
 {
@@ -14,7 +15,6 @@ namespace Booking
         public Contact Contact { get; set; }
 
         public List<Bookable> BookableResource { get; set; }
-
-       
+        
     }
 }

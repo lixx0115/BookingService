@@ -53,6 +53,11 @@ namespace Booking
             return true;
         }
 
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+
         private bool ValidateBookingSlot(BookedSlot booking)
         {
             foreach (var s in this.BookedSlots)

@@ -12,5 +12,15 @@ namespace Booking
         {
             return new Consumer();
         }
+
+        private static string ToJson(Consumer consumer)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(consumer);
+        }
+
+        private static Consumer FromJson(string consumerJson)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<Consumer>(consumerJson);
+        }
     }
 }

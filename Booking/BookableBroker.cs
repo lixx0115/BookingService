@@ -12,5 +12,15 @@ namespace Booking
         {
             return new Bookable(bookableId);
         }
+
+        private static string ToJson(Bookable bookable)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(bookable);
+        }
+
+        private static Bookable FromJson(string bookableJson)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<Bookable>(bookableJson);
+        }
     }
 }
