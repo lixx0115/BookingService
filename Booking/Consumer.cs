@@ -27,14 +27,14 @@ namespace Booking
 
         public bool BookSlots(List<BookedSlot> bookingAtempt)
         {
-            var bookable = BookableBroker.GetBookable(bookingAtempt[0].BookableId);
+            var bookable = BookableBroker.GetBookableById(bookingAtempt[0].BookableId);
             bookable.BookSlot(bookingAtempt);
             myBookedSlotList.AddRange(bookingAtempt);
             return true;
         }
 
         public bool BookSlot (BookedSlot bookingAtempt) { 
-            var bookable = BookableBroker.GetBookable(bookingAtempt.BookableId);
+            var bookable = BookableBroker.GetBookableById(bookingAtempt.BookableId);
             bookable.BookSlot(bookingAtempt);
             myBookedSlotList.Add(bookingAtempt);
             return true;
@@ -42,7 +42,7 @@ namespace Booking
 
         public bool CancelBooking(BookedSlot cancelAtempt)
         {
-            var bookable = BookableBroker.GetBookable(cancelAtempt.BookableId);
+            var bookable = BookableBroker.GetBookableById(cancelAtempt.BookableId);
             var toRemove = this.myBookedSlotList.Find(x => x.Id == cancelAtempt.Id);
             this.myBookedSlotList.Remove(toRemove);
             bookable.CancelBooking(cancelAtempt);
@@ -51,7 +51,7 @@ namespace Booking
 
         public bool CancelBooking(List<BookedSlot> cancelAtempts)
         {
-            var bookable = BookableBroker.GetBookable(cancelAtempts[0].BookableId);
+            var bookable = BookableBroker.GetBookableById(cancelAtempts[0].BookableId);
             return true;
         }
     }

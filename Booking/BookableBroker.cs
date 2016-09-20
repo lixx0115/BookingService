@@ -8,7 +8,7 @@ namespace Booking
 {
     public static class BookableBroker
     {
-        public static Bookable GetBookable(string bookableId)
+        public static Bookable GetBookableById(string bookableId)
         {
             return new Bookable();
         }

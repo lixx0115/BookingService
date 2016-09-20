@@ -18,23 +18,51 @@ namespace Booking
             return BookedSlots.FindAll(x => x.Start >= start || x.End <= end);
         }
 
-        public bool BookSlot(List<BookedSlot> booking)
+        public bool BookSlot(List<BookedSlot> bookings)
         {
-            this.BookedSlots.AddRange(booking);
+            if (!ValidateBookingSlots(bookings))
+                return false;
+
+            this.BookedSlots.AddRange(bookings);
             return true;
         }
 
         public bool BookSlot(BookedSlot booking)
         {
-            this.BookedSlots.Add(booking);
-            return true;
+            if (ValidateBookingSlot(booking))
+            {
+                this.BookedSlots.Add(booking);
+                return true;
+            }
+            return false;
         }
 
         public bool CancelBooking(BookedSlot cancelAtempt)
         {
-            var bookable = BookableBroker.GetBookable(cancelAtempt.BookableId);
+            var bookable = BookableBroker.GetBookableById(cancelAtempt.BookableId);
             var toRemove = this.BookedSlots.Find(x => x.Id == cancelAtempt.Id);
             this.BookedSlots.Remove(toRemove);
+            return true;
+        }
+
+        private bool ValidateBookingSlot(BookedSlot booking)
+        {
+            foreach (var s in this.BookedSlots)
+            {
+                if (s.IsOverLap(booking))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool ValidateBookingSlots(List<BookedSlot> bookings)
+        {
+            foreach (var s in this.BookedSlots)
+            {
+                foreach(var b in bookings)
+                if (s.IsOverLap(b))
+                    return false;
+            }
             return true;
         }
     }
