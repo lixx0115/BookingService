@@ -33,7 +33,7 @@ namespace TestDriver
             { consumer.Contact = new Contact(); }
             consumer.Contact.Name = "testConsumer";
             ConsumerBroker.Save(consumer);
-           Console.WriteLine( consumer.BookSlot(slot));
+            Console.WriteLine( consumer.BookSlot(slot));
 
 
 
