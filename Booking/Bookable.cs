@@ -32,6 +32,8 @@ namespace Booking
                 return false;
 
             this.BookedSlots.AddRange(bookings);
+
+            BookableBroker.Save(this);
             return true;
         }
 
@@ -40,6 +42,7 @@ namespace Booking
             if (ValidateBookingSlot(booking))
             {
                 this.BookedSlots.Add(booking);
+                BookableBroker.Save(this);
                 return true;
             }
             return false;
@@ -50,12 +53,8 @@ namespace Booking
             var bookable = BookableBroker.GetBookableById(cancelAtempt.BookableId);
             var toRemove = this.BookedSlots.Find(x => x.Id == cancelAtempt.Id);
             this.BookedSlots.Remove(toRemove);
+            BookableBroker.Save(this);
             return true;
-        }
-
-        public string ToJson()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
 
         private bool ValidateBookingSlot(BookedSlot booking)

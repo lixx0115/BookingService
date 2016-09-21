@@ -8,9 +8,26 @@ namespace Booking
 {
     public static class BookableBroker
     {
+        private static readonly string tableName = "bookable";
+            
+        private static Storage bookableStore = new Storage(tableName);
+
+
         public static Bookable GetBookableById(Guid bookableId)
         {
-            return new Bookable(bookableId);
+            var bookableString = bookableStore.Get( bookableId);
+            if (string.IsNullOrWhiteSpace(bookableString))
+            {
+                var bookable =  new Bookable(bookableId);
+                 bookable.BookedSlots = new List<BookedSlot>();
+                return bookable;
+            }
+            return FromJson(bookableString);
+        }
+
+        public static void Save(Bookable bookable)
+        {
+            bookableStore.Save(bookable.Id, ToJson(bookable));
         }
 
         private static string ToJson(Bookable bookable)
