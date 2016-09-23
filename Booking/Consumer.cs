@@ -33,6 +33,8 @@ namespace Booking
         
         public List<BookedSlot> GetBookedSlots(DateTimeOffset start, DateTimeOffset end)
         {
+            if (myBookedSlotList == null)
+                return new List<BookedSlot>();
             return myBookedSlotList.FindAll(x => x.Start >= start || x.End <= end);
         }
 

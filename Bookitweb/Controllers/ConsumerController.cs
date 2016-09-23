@@ -35,7 +35,30 @@ namespace Bookitweb.Controllers
             }
 
         }
-        
+
+        [HttpGet]
+        public JsonResult GetEvents(DateTime start, DateTime end)
+        {
+            var userName = User.Identity.Name;
+            var userId = UserStore.GetId(userName);
+            
+            var consumer = ConsumerBroker.GetConsumer(userId.Value);
+            var events = consumer.GetBookedSlots(start, end);
+
+            var eventList = from e in events
+                            select new
+                            {
+                                id = e.Id,
+                                title = "appointMent",
+                                start = e.Start.ToString("s"),
+                                end = e.End.ToString("s"),
+                                allDay = false
+                            };
+
+            var rows = eventList.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult NewUser()
         {
             return View("New");
@@ -48,6 +71,12 @@ namespace Bookitweb.Controllers
             return RedirectToAction("Overview", "Consumer", new { id = 5 });
         }
 
+
+        private static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {
+            var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return origin.AddSeconds(timestamp);
+        }
 
     }
 }
