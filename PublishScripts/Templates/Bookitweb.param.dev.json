@@ -1,0 +1,29 @@
+{
+  "siteName": {
+    "value": "bookitweb"
+  },
+  "hostingPlanName": {
+    "value": "bookit"
+  },
+  "siteLocation": {
+    "value": "East US 2"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "siteMode": {
+    "value": "Limited"
+  },
+  "computeMode": {
+    "value": "0"
+  },
+  "subscriptionId": {
+    "value": "da21b348-9d4c-4a56-b97f-9c75609e9f64"
+  },
+  "resourceGroup": {
+    "value": "bookit"
+  }
+}

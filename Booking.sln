@@ -7,6 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking", "Booking\Booking.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDriver", "TestDriver\TestDriver.csproj", "{CFFF1497-2718-4623-BBE7-392D30E1EE94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookitweb", "Bookitweb\Bookitweb.csproj", "{0FDE6084-9361-4C96-8BF1-61CD41B9D507}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{E5799870-8F4C-41B1-8497-E154705B99CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0ABAEE23-7D65-4615-B1E2-2593D7CE43B4}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1 = PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{1A6C36EB-F9B5-445B-A3DD-ADE13B773438}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Templates\Bookitweb.json = PublishScripts\Templates\Bookitweb.json
+		PublishScripts\Templates\Bookitweb.param.dev.json = PublishScripts\Templates\Bookitweb.param.dev.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +36,16 @@ Global
 		{CFFF1497-2718-4623-BBE7-392D30E1EE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFFF1497-2718-4623-BBE7-392D30E1EE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFFF1497-2718-4623-BBE7-392D30E1EE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FDE6084-9361-4C96-8BF1-61CD41B9D507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FDE6084-9361-4C96-8BF1-61CD41B9D507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FDE6084-9361-4C96-8BF1-61CD41B9D507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FDE6084-9361-4C96-8BF1-61CD41B9D507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0ABAEE23-7D65-4615-B1E2-2593D7CE43B4} = {E5799870-8F4C-41B1-8497-E154705B99CD}
+		{1A6C36EB-F9B5-445B-A3DD-ADE13B773438} = {E5799870-8F4C-41B1-8497-E154705B99CD}
 	EndGlobalSection
 EndGlobal

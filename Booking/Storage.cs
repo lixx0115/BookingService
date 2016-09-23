@@ -28,6 +28,15 @@ namespace Booking
             table.Execute(updateOperation);
             
         }
+        public void Save(string id, string payload)
+        {
+            var storeEntity = new StoreEntity(id);
+            storeEntity.PayLoad = payload;
+            TableOperation updateOperation = TableOperation.InsertOrReplace(storeEntity);
+            table.Execute(updateOperation);
+
+        }
+
 
         public string Get( Guid id)
         {
@@ -41,6 +50,39 @@ namespace Booking
             return string.Empty;
         }
 
+        public void Delete(Guid id)
+        {
+            Delete(id.ToString());
+         }
+
+        public void Delete(string id)
+        {
+
+            var sid = id;
+            var pk = sid.Substring(0, 3);
+            var retrieveOperation = TableOperation.Retrieve<StoreEntity>(pk, sid);
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+            if (retrievedResult.Result != null)
+            {
+                var delete = ((StoreEntity)retrievedResult.Result);
+                var deleteOp = TableOperation.Delete(delete);
+                table.Execute(deleteOp);
+
+
+            }
+
+        }
+        public string Get(string id)
+        {
+            var sid = id ;
+            var pk = sid.Substring(0, 3);
+            var retrieveOperation = TableOperation.Retrieve<StoreEntity>(pk, sid);
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+            if (retrievedResult.Result != null)
+                return ((StoreEntity)retrievedResult.Result).PayLoad;
+
+            return string.Empty;
+        }
         private class StoreEntity : TableEntity
         {
             public StoreEntity()
@@ -48,10 +90,12 @@ namespace Booking
 
             }
             public StoreEntity(string id) { this.PartitionKey = id.Substring(0, 3); ; this.RowKey = id; }
-
+            
             public string PayLoad { get; set; }
 
         }
+
+        
     }
 
 

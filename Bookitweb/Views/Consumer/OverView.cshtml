@@ -1,0 +1,37 @@
+﻿
+@model Booking.Consumer
+@{
+
+    ViewBag.Title = "Consumer Overview";
+}
+@{ 
+    if(Model.myBookedSlotList == null)
+    {
+        Model.myBookedSlotList = new List<Booking.BookedSlot>();
+
+    }
+    if(Model.MyBookableList == null)
+    {
+        Model.MyBookableList = new List<Guid>();
+    }
+}
+<h2>Consumer Overview</h2>
+<div>
+    <div class="formRowContainer">
+        <div class="labelContainer">
+            @Html.LabelFor(model => model.Contact.Name)
+        </div>
+        <div class="valueContainer">
+            @Html.TextBoxFor(model => model.Contact.Name, Model.Contact.Name)
+        </div>
+        @foreach (var s in Model.myBookedSlotList)
+        {
+            <div>starttime: @s.Start.ToLocalTime().ToString()   endtime : @s.End.ToLocalTime().ToString()</div>
+        }
+
+    </div>
+    <div class="container">
+        <hr>
+        <div id="calendar"></div>
+    </div>
+</div>

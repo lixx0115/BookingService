@@ -11,6 +11,9 @@ namespace Booking
         public Guid Id { get; set; }
         public Consumer()
         {
+            MyBookableList = new List<Guid>();
+            myBookedSlotList = new List<BookedSlot>();
+            Contact = new Contact();
 
         }
 
