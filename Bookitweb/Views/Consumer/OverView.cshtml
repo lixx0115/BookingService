@@ -19,7 +19,18 @@
 @section scripts { 
     
 <script>
-$(document).ready(function() {
+
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+    }
+    $(document).ready(function () {
+
     $('#calendar').fullCalendar({
         theme: true,
         header: {
@@ -33,21 +44,20 @@ $(document).ready(function() {
         selectable: true,
         selectHelper: true,
         eventClick: function (calEvent, jsEvent, view) {
-
+            $('#cancel-event').attr("data-id", calEvent.id);
             //  alert('Event: ' + calEvent.title + ' Start: ' + calEvent.start);
-            $('#cancelText').text( 'Cancel ' + 'Event: ' + calEvent.title + ' Start: ' + calEvent.start + '?');
+            $('#cancelText').text('Cancel ' + 'Event: ' + calEvent.title + ' Start: ' + calEvent.start.utc().format() + ' with id of '+calEvent.id+'?');
             $('#cancelModal').modal("show");
-
             // change the border color just for fun
             $(this).css('border-color', 'red');
 
         },
         select: function(start, end) {
         var title = prompt('Event Title:');
-        prompt(start);
         var eventData;
         if (title) {
             eventData = {
+                id : guid(),
                 title: title,
                 start: start,
                 end: end
@@ -64,7 +74,15 @@ $(document).ready(function() {
     eventLimit: true
     });
 
-  
+    $('#cancel-event').on(
+             'click',
+             function (evt) {
+                 console.log('triggered' + $('#cancel-event').attr("data-id"));
+                 $('#calendar').fullCalendar('removeEvents', $('#cancel-event').attr("data-id"));
+
+             }
+ );
+
 
     $('#datepicker').datepicker({
         inline: true,
@@ -73,8 +91,9 @@ $(document).ready(function() {
             $('#calendar').fullCalendar('gotoDate', d);
         }
     });
-
+   
 });
+
 </script>
     }
 <h2>Consumer Overview</h2>
@@ -106,7 +125,7 @@ $(document).ready(function() {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Yes, Cancel it</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-event">Yes, Cancel it</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
