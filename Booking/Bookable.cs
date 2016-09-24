@@ -19,13 +19,15 @@ namespace Booking
         public List<BookedSlot> BookedSlots { get; set; }
         public string Name { get; set; }
 
+        public List<string> Tags {get; set;}
+
         public string Description { get; set; }
 
         public List<BookedSlot> GetBookedSlots(DateTimeOffset start, DateTimeOffset end)
         {
             return BookedSlots.FindAll(x => x.Start >= start || x.End <= end);
         }
-
+        
         public bool BookSlot(List<BookedSlot> bookings)
         {
             if (!ValidateBookingSlots(bookings))

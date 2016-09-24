@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Azure.Search;
 namespace Booking
 {
     public static class BookableBroker
@@ -11,8 +11,7 @@ namespace Booking
         private static readonly string tableName = "bookable";
             
         private static Storage bookableStore = new Storage(tableName);
-
-
+        
         public static Bookable GetBookableById(Guid bookableId)
         {
             var bookableString = bookableStore.Get( bookableId);

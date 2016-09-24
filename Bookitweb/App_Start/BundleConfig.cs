@@ -26,7 +26,7 @@ namespace Bookitweb
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css", "~/Content/fullcalendar.css", "~/Content/themes/base/jquery-ui.css",
+                      "~/Content/bootstrap.min.css", "~/Content/fullcalendar.css", "~/Content/themes/base/jquery-ui.css",
                       "~/Content/site.css"));
         }
     }

@@ -36,6 +36,12 @@ namespace Bookitweb.Controllers
 
         }
 
+        [HttpPost]
+        public HttpStatusCodeResult BookEvent(DateTimeOffset eventStart, DateTimeOffset eventEnd, string name)
+        {
+            return new HttpStatusCodeResult(200);
+        }
+
         [HttpGet]
         public JsonResult GetEvents(DateTime start, DateTime end)
         {

@@ -89,6 +89,7 @@
     <Compile Include="Bookable.cs" />
     <Compile Include="BookableBroker.cs" />
     <Compile Include="BookableOwner.cs" />
+    <Compile Include="BookableSearcher.cs" />
     <Compile Include="Consumer.cs" />
     <Compile Include="ConsumerBroker.cs" />
     <Compile Include="Contact.cs" />
