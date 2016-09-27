@@ -17,82 +17,14 @@
 } 
 
 @section scripts { 
-    
 <script>
 
-    function guid() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-          s4() + '-' + s4() + s4() + s4();
-    }
-    $(document).ready(function () {
+    $(document).ready(
+      function () {
+          mycalendar.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+      }
 
-    $('#calendar').fullCalendar({
-        theme: true,
-        header: {
-            left: '',
-            center: '',
-            right: ''
-        },
-        defaultView: 'agendaDay',
-        editable: true,
-        events: "/Consumer/GetEvents/",
-        selectable: true,
-        selectHelper: true,
-        eventClick: function (calEvent, jsEvent, view) {
-            $('#cancel-event').attr("data-id", calEvent.id);
-            //  alert('Event: ' + calEvent.title + ' Start: ' + calEvent.start);
-            $('#cancelText').text('Cancel ' + 'Event: ' + calEvent.title + ' Start: ' + calEvent.start.utc().format() + ' with id of '+calEvent.id+'?');
-            $('#cancelModal').modal("show");
-            // change the border color just for fun
-            $(this).css('border-color', 'red');
-
-        },
-        select: function(start, end) {
-        var title = prompt('Event Title:');
-        var eventData;
-        if (title) {
-            eventData = {
-                id : guid(),
-                title: title,
-                start: start,
-                end: end
-            };
-            $.post("/Consumer/BookEvent/", { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title }, function (data) {
-                $(".result").html(data);
-            });
-            $('#calendar').fullCalendar('renderEvent', eventData, true);
-  
-        }
-        $('#calendar').fullCalendar('unselect');
-    },
-    editable: true,
-    eventLimit: true
-    });
-
-    $('#cancel-event').on(
-             'click',
-             function (evt) {
-                 console.log('triggered' + $('#cancel-event').attr("data-id"));
-                 $('#calendar').fullCalendar('removeEvents', $('#cancel-event').attr("data-id"));
-
-             }
- );
-
-
-    $('#datepicker').datepicker({
-        inline: true,
-        onSelect: function (dateText, inst) {
-            var d = new Date(dateText);
-            $('#calendar').fullCalendar('gotoDate', d);
-        }
-    });
-   
-});
+);
 
 </script>
     }
@@ -130,3 +62,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+@Scripts.Render("~/bundles/mycal")

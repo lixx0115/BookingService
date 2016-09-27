@@ -37,8 +37,19 @@ namespace Bookitweb.Controllers
         }
 
         [HttpPost]
-        public HttpStatusCodeResult BookEvent(DateTimeOffset eventStart, DateTimeOffset eventEnd, string name)
+        public HttpStatusCodeResult CancelEvent(string id)
         {
+            return new HttpStatusCodeResult(200);
+        }
+        [HttpPost]
+        public HttpStatusCodeResult BookEvent(DateTimeOffset eventStart, DateTimeOffset eventEnd, string name, string id)
+        {
+            var userName = User.Identity.Name;
+            var userId = UserStore.GetId(userName);
+
+            var consumer = ConsumerBroker.GetConsumer(userId.Value);
+     
+
             return new HttpStatusCodeResult(200);
         }
 
