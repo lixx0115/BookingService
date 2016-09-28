@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Booking;
 
 namespace Bookitweb.Controllers
 {
@@ -26,13 +27,36 @@ namespace Bookitweb.Controllers
             return View();
         }
 
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        public JsonResult SearchByTerm(string searchTerm)
+        {
+            var result = BookableSearcher.Search(searchTerm);
+            var rows = result.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Bookable/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                var bookable = new Bookable();
+                bookable.BookingContact = new Contact();
+                bookable.Name = collection["Name"];
+                var tagstring = collection["Tags"];
+                bookable.Description = collection["Description"];
+                bookable.BookingContact.Name = collection["ContactName"];
+                bookable.BookingContact.PhoneNumber = collection["ContactPhoneNumber"];
+                bookable.BookingContact.Email = collection["ContactEmail"];
+
+                bookable.Id = Guid.NewGuid();
+                BookableBroker.Save(bookable);
+                BookableSearcher.AddBookableToSearcher(bookable.Name, bookable.Tags, bookable.Id);
 
                 return RedirectToAction("Index");
             }
@@ -41,7 +65,7 @@ namespace Bookitweb.Controllers
                 return View();
             }
         }
-
+        
         // GET: Bookable/Edit/5
         public ActionResult Edit(int id)
         {

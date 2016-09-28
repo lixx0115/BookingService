@@ -4,5 +4,57 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@model Booking.Bookable
+@{
 
+    ViewBag.Title = "Bookable Overview";
+}
+
+<h2>Index</h2>
+@section scripts {
+    <script>
+
+    $(document).ready(
+      function () {
+          mycalendar.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+      }
+
+);
+
+    </script>
+}
+<h2>Consumer Overview</h2>
+<div>
+    <div class="formRowContainer">
+        <div class="labelContainer ">
+            @Html.LabelFor(model => model.Contact.Name)
+        </div>
+        <div class="valueContainer">
+            @Html.TextBoxFor(model => model.Contact.Name, Model.Contact.Name)
+        </div>
+    </div>
+    <div class="container, row">
+        <hr>
+        <div id="datepicker" class="col-md-4"></div>
+        <div id="calendar" class="col-md-8"></div>
+    </div>
+</div>
+
+<div id="cancelModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <p id="cancelText">Want to canel?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-event">Yes, Cancel it</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@Scripts.Render("~/bundles/mycal")

@@ -339,6 +339,7 @@
     <Content Include="Views\Consumer\New.cshtml" />
     <Content Include="Views\Bookable\Search.cshtml" />
     <Content Include="Views\Bookable\Index.cshtml" />
+    <Content Include="Views\Bookable\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,6 +358,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\calendar.ts" />
     <TypeScriptCompile Include="Scripts\pFullCalendar.ts" />
+    <TypeScriptCompile Include="Scripts\Search.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\fullCalendar\fullCalendar.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />

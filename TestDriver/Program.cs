@@ -35,10 +35,23 @@ namespace TestDriver
             //ConsumerBroker.Save(consumer);
             //Console.WriteLine( consumer.BookSlot(slot));
 
-            var storage = new Storage("user");
-            storage.Delete("lixx0115@hotmail.com");
+            //var storage = new Storage("user");
+            //storage.Delete("lixx0115@hotmail.com");
+            var tag = new List<string>();
+            tag.Add("123");
+            tag.Add("huanl");
+            var bid = Guid.Parse("52cfecbc-d154-4486-bf44-682fac2c30f2");
+            BookableSearcher.AddBookableToSearcher("abc", tag, bid);
 
-            
+            var result = BookableSearcher.Search("huanl");
+            foreach(var s in result)
+            {
+                Console.WriteLine(s.Id);
+            }
+
+
+
+
 
 
         }

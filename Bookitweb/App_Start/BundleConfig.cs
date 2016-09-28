@@ -20,7 +20,8 @@ namespace Bookitweb
                         "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/mycal").Include(
             "~/Scripts/calendar.js*"));
-
+            bundles.Add(new ScriptBundle("~/bundles/search").Include(
+"~/Scripts/Search.js*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",

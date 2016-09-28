@@ -19,6 +19,8 @@ namespace Booking
         public List<BookedSlot> BookedSlots { get; set; }
         public string Name { get; set; }
 
+        public Contact BookingContact { get; set; }
+
         public List<string> Tags {get; set;}
 
         public string Description { get; set; }
