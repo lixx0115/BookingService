@@ -35,6 +35,19 @@ namespace Bookitweb.Controllers
             }
 
         }
+        [HttpGet]
+        public ActionResult SearchBookable()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult SearchByTerm(string searchTerm)
+        {
+            var result = BookableSearcher.Search(searchTerm);
+            var rows = result.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public HttpStatusCodeResult CancelEvent(string id)
@@ -78,12 +91,25 @@ namespace Bookitweb.Controllers
 
         public ActionResult NewUser()
         {
-            return View("New");
+            return View("editUser");
         }
-        [HttpPost]
-        public ActionResult NewUser(Consumer consumer)
+
+        public ActionResult EditUser()
         {
-            consumer.Id = UserStore.CreateUser(User.Identity.Name);
+            var userName = User.Identity.Name;
+            var userId = UserStore.GetId(userName);
+
+            var consumer = ConsumerBroker.GetConsumer(userId.Value);
+            return PartialView("EditUserTap", consumer);
+        }
+
+        [HttpPost]
+        public ActionResult EditUser(Consumer consumer)
+        {
+            if (consumer.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
+            { 
+                consumer.Id = UserStore.CreateUser(User.Identity.Name);
+            }
             ConsumerBroker.Save(consumer);
             return RedirectToAction("Overview", "Consumer", new { id = 5 });
         }

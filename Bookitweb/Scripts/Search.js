@@ -12,12 +12,20 @@ var Searcher = (function () {
     Searcher.Display = function (resultList) {
         for (var _i = 0, resultList_1 = resultList; _i < resultList_1.length; _i++) {
             var r = resultList_1[_i];
-            jQuery('<a/>', {
-                href: 'index?id' + r.Id,
+            var item = jQuery('<button />', {
+                type: "button",
                 class: "list-group-item",
                 text: r.Name
-            }).appendTo('#searchResult');
+            });
+            item.attr("data-id", r.id);
+            item.on("click", Searcher.GoToCalender);
+            item.appendTo('#searchResult');
         }
+    };
+    Searcher.GoToCalender = function () {
+        $('#searchResult').hide();
+        var cal = new mycalendar("/Consumer/BookEvent/");
+        cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
     };
     Searcher.ClearDisplay = function () {
         $("#searchResult").empty();

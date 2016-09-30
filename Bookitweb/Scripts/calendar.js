@@ -4,15 +4,13 @@
 /// <reference path="typings/jquery/jquery.d.ts" />
 /// <reference path="typings/moment/moment.d.ts" />
 var mycalendar = (function () {
-    function mycalendar() {
+    function mycalendar(eventUrl) {
+        this.evenUrl = eventUrl;
     }
-    mycalendar.main = function () {
-        console.log('Hello World me');
-        return 0;
-    };
-    mycalendar.DisplayCalendar = function (cal, datapicker, modal) {
-        mycalendar.ShowCalendar(cal);
-        modal.click(function (evt) { mycalendar.EventCancel(evt, cal); });
+    mycalendar.prototype.DisplayCalendar = function (cal, datapicker, modal) {
+        var that = this;
+        this.ShowCalendar(cal);
+        modal.click(function (evt) { that.EventCancel(evt, cal); });
         datapicker.datepicker({
             onSelect: function (dateText, inst) {
                 var d = new Date(dateText);
@@ -20,16 +18,16 @@ var mycalendar = (function () {
             }
         });
     };
-    mycalendar.guid = function () {
-        return mycalendar.s4() + mycalendar.s4() + '-' + mycalendar.s4() + '-' + mycalendar.s4() + '-' +
-            mycalendar.s4() + '-' + mycalendar.s4() + mycalendar.s4() + mycalendar.s4();
+    mycalendar.prototype.guid = function () {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + this.s4() + this.s4();
     };
-    mycalendar.s4 = function () {
+    mycalendar.prototype.s4 = function () {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
     };
-    mycalendar.EventClickeOn = function (calEvent, jsEvent, view) {
+    mycalendar.prototype.EventClickeOn = function (calEvent, jsEvent, view) {
         $('#cancel-event').attr("data-id", calEvent.id);
         //  alert('Event: ' + calEvent.title + ' Start: ' + calEvent.start);
         $('#cancelText').text('Cancel ' + 'Event: ' + calEvent.title + ' Start: ' + calEvent.start.utc().format() + ' with id of ' + calEvent.id + '?');
@@ -37,46 +35,46 @@ var mycalendar = (function () {
         // change the border color just for fun
         $(this).css('border-color', 'red');
     };
-    mycalendar.EventSelection = function (start, end, item) {
+    mycalendar.prototype.EventSelection = function (start, end, item) {
         var title = prompt('Event Title:');
         var eventData;
         if (title) {
             eventData = {
-                id: mycalendar.guid(),
+                id: this.guid(),
                 title: title,
                 start: start,
                 end: end
             };
-            $.post("/Consumer/BookEvent/", { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id }, function (data) {
+            $.post(this.evenUrl, { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id }, function (data) {
                 $(".result").html(data);
             });
             item.fullCalendar('renderEvent', eventData, true);
-            console.log(eventData.title);
         }
         item.fullCalendar('unselect');
     };
-    mycalendar.EventCancel = function (event, item) {
+    mycalendar.prototype.EventCancel = function (event, item) {
         $.post("/Consumer/CancelEvent/", { id: $('#cancel-event').attr("data-id") }, function (data) {
             $(".result").html(data);
         });
         item.fullCalendar('removeEvents', $('#cancel-event').attr("data-id"));
     };
-    mycalendar.ShowCalendar = function (item) {
+    mycalendar.prototype.ShowCalendar = function (item) {
+        var that = this;
         item.fullCalendar({
             theme: true,
             header: {
                 left: '',
                 center: '',
-                right: ''
+                right: 'today prev,next'
             },
             defaultView: 'agendaDay',
             editable: true,
-            events: "/Consumer/GetEvents/",
+            events: this.evenUrl,
             selectable: true,
             selectHelper: true,
-            eventClick: mycalendar.EventClickeOn,
+            eventClick: that.EventClickeOn,
             select: function (start, end) {
-                mycalendar.EventSelection(start, end, item);
+                that.EventSelection(start, end, item);
             }
         });
     };

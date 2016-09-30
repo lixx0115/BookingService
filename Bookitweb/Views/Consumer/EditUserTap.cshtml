@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "EditUserTap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Consumer</h3>
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li role="presentation"  ><a href="/Consumer/OverView">Home</a></li>
+        <li role="presentation" class="active"><a href="/Consumer/edituser">Profile</a></li>
+        <li role="presentation"><a href="/Consumer/SearchBookable">Booking</a></li>
+    </ul>
+    <div>
+        @Html.Partial("~/Views/Shared/_editUser.cshtml");
+
+    </div>
+</div>

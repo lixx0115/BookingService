@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+  
+@section scripts {
+    <script>
+
+        $(document).ready(
+            function () {
+                Searcher.BindSearch($("#searchbotton"));
+           
+
+            }
+);
+
+    </script>
+}
+<div>
+
+    <h3>Consumer</h3>
+</div>
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="/Consumer/OverView">Home</a></li>
+        <li role="presentation"><a href="/Consumer/edituser">Profile</a></li>
+        <li role="presentation" class="active"><a href="/Consumer/SearchBookable">Booking</a></li>
+    </ul>
+
+    <div class="col-lg-3 pull-right-9">
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchText" placeholder="Search bookable">
+            <span class="input-group-btn">
+                <button class="btn btn-default" id="searchbotton" type="button">Go!</button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+<div class="list-group" id="searchResult"></div>
+
+
+    <div class="container, row">
+        <hr>
+        <div id="datepicker" class="col-md-4"></div>
+        <div id="calendar" class="col-md-8"></div>
+    </div>
+
+
+    <div id="cancelModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <p id="cancelText">Want to canel?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-event">Yes, Cancel it</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+ 
+@Scripts.Render("~/bundles/search")
+
+@Scripts.Render("~/bundles/mycal")

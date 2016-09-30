@@ -336,10 +336,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Consumer\OverView.cshtml" />
-    <Content Include="Views\Consumer\New.cshtml" />
-    <Content Include="Views\Bookable\Search.cshtml" />
+    <Content Include="Views\Consumer\editUser.cshtml" />
+    <Content Include="Views\Consumer\SearchBookable.cshtml" />
     <Content Include="Views\Bookable\Index.cshtml" />
     <Content Include="Views\Bookable\Create.cshtml" />
+    <Content Include="Views\Shared\_editUser.cshtml" />
+    <Content Include="Views\Consumer\EditUserTap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

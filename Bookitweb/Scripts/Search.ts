@@ -13,13 +13,23 @@ class Searcher {
 
     private static Display(resultList: Array<any>) {
         for (var r of resultList) {
-            jQuery('<a/>', {
-                href: 'index?id'+r.Id,
+            let item = jQuery('<button />', {
+                type : "button",
                 class: "list-group-item",
                 text: r.Name
-            }).appendTo('#searchResult');
+            });
+            item.attr("data-id", r.id);
+            item.on("click", Searcher.GoToCalender);
+               item.appendTo('#searchResult');
 
         }
+    }
+
+    private static GoToCalender() {
+        $('#searchResult').hide();
+        var cal = new mycalendar("/Consumer/BookEvent/");
+        cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+
     }
 
     private static ClearDisplay() {

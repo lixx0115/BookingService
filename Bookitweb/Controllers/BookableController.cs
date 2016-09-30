@@ -10,14 +10,17 @@ namespace Bookitweb.Controllers
     public class BookableController : Controller
     {
         // GET: Bookable
-        public ActionResult Index()
-        {
-            return View();
+        public ActionResult Index(string id)
+        { 
+   
+            var bookable = BookableBroker.GetBookableById(Guid.Parse(id));
+            return View(bookable);
         }
 
         // GET: Bookable/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
@@ -32,10 +35,34 @@ namespace Bookitweb.Controllers
             return View();
         }
 
+        [HttpGet]
         public JsonResult SearchByTerm(string searchTerm)
         {
             var result = BookableSearcher.Search(searchTerm);
             var rows = result.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetEvents(DateTime start, DateTime end)
+        {
+            var userName = User.Identity.Name;
+            var userId = UserStore.GetId(userName);
+
+            var bookable = BookableBroker.GetBookableById(userId.Value);
+            var events = bookable.GetBookedSlots(start, end);
+
+            var eventList = from e in events
+                            select new
+                            {
+                                id = e.Id,
+                                title = e.AdditionalNotes,
+                                start = e.Start.ToString("s"),
+                                end = e.End.ToString("s"),
+                                allDay = false
+                            };
+
+            var rows = eventList.ToArray();
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
 

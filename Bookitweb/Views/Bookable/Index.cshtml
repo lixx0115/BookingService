@@ -9,29 +9,24 @@
 
     ViewBag.Title = "Bookable Overview";
 }
-
-<h2>Index</h2>
+ 
 @section scripts {
     <script>
 
-    $(document).ready(
-      function () {
-          mycalendar.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
-      }
+        $(document).ready(
+          function () {
+              var cal = new mycalendar("/bookable/BookEvent/");
+              cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+          }
 
 );
 
     </script>
 }
-<h2>Consumer Overview</h2>
+<h3>Consumer Overview</h3>
 <div>
-    <div class="formRowContainer">
-        <div class="labelContainer ">
-            @Html.LabelFor(model => model.Contact.Name)
-        </div>
-        <div class="valueContainer">
-            @Html.TextBoxFor(model => model.Contact.Name, Model.Contact.Name)
-        </div>
+    <div class="container">
+        <h4>@Model.Description</h4>
     </div>
     <div class="container, row">
         <hr>
