@@ -14,21 +14,25 @@ class Searcher {
     private static Display(resultList: Array<any>) {
         for (var r of resultList) {
             let item = jQuery('<button />', {
-                type : "button",
+                type: "button",
                 class: "list-group-item",
                 text: r.Name
             });
-            item.attr("data-id", r.id);
-            item.on("click", Searcher.GoToCalender);
+            item.attr("data-id", r.Id);
+            item.on("click",
+                function () {
+                    Searcher.GoToCalender(r.Id);
+                    } ) ,
                item.appendTo('#searchResult');
 
         }
     }
 
-    private static GoToCalender() {
+    private static GoToCalender(bookableId:string) {
         $('#searchResult').hide();
-        var cal = new mycalendar("/Consumer/BookEvent/");
-        cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+        sessionStorage.setItem("bookableid", bookableId);
+        var cal = new mycalendar("/Bookable/getevents/" + bookableId);
+        cal.DisplayBookableCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
 
     }
 

@@ -15,10 +15,23 @@ class mycalendar {
     }
     
 
-
-    public DisplayCalendar(cal: JQuery, datapicker: JQuery, modal: JQuery) {
+    public DisplayConsumerCalendar(cal: JQuery, datapicker: JQuery, modal: JQuery) {
         var that = this;
-        this.ShowCalendar(cal);
+        this.ShowConsumerCalendar(cal);
+        modal.click(function (evt) { that.EventCancel(evt, cal) });
+        datapicker.datepicker(
+            {
+                onSelect: function (dateText, inst) {
+                    var d = new Date(dateText);
+                    cal.fullCalendar('gotoDate', d);
+                }
+            });
+
+    }
+
+    public DisplayBookableCalendar(cal: JQuery, datapicker: JQuery, modal: JQuery) {
+        var that = this;
+        this.ShowBookableCalendar(cal);
         modal.click(function (evt) { that.EventCancel(evt, cal) });
         datapicker.datepicker(
             {
@@ -53,7 +66,7 @@ class mycalendar {
 
     }
 
-    private  EventSelection(start: moment.Moment, end: moment.Moment, item: JQuery) {
+    private  BookEvent(start: moment.Moment, end: moment.Moment, item: JQuery) {
         var title = prompt('Event Title:');
         var eventData;
         if (title) {
@@ -63,7 +76,7 @@ class mycalendar {
                 start: start,
                 end: end
             };
-            $.post( this.evenUrl, { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id }, function (data) {
+            $.post("bookevent", { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id, bookableId: sessionStorage["bookableid"] }, function (data) {
                 $(".result").html(data);
             });
             item.fullCalendar('renderEvent', eventData, true);
@@ -79,7 +92,7 @@ class mycalendar {
         item.fullCalendar('removeEvents', $('#cancel-event').attr("data-id"));
     }
 
-    public  ShowCalendar(item: JQuery) {
+    public  ShowConsumerCalendar(item: JQuery) {
 
         var that = this;
         item.fullCalendar({
@@ -93,11 +106,36 @@ class mycalendar {
             defaultView: 'agendaDay',
             editable: true,
             events: this.evenUrl,
+            selectable: false,
+            selectHelper: false,
+            eventClick: that.EventClickeOn,
+            select: function (start, end) {
+                that.BookEvent(start, end, item);
+            }
+
+        });
+    }
+
+
+    public ShowBookableCalendar(item: JQuery) {
+
+        var that = this;
+        item.fullCalendar({
+            theme: true,
+            header: {
+                left: '',
+                center: '',
+                right: 'today prev,next'
+            },
+
+            defaultView: 'agendaDay',
+            editable: true,
+            events: this.evenUrl,
             selectable: true,
             selectHelper: true,
             eventClick: that.EventClickeOn,
             select: function (start, end) {
-                that.EventSelection(start, end, item);
+                that.BookEvent(start, end, item);
             }
 
         });

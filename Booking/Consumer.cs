@@ -64,12 +64,17 @@ namespace Booking
             return false;
         }
 
-        public bool CancelBooking(BookedSlot cancelAtempt)
+        public bool CancelBooking(Guid bookingId)
         {
-            var bookable = BookableBroker.GetBookableById(cancelAtempt.BookableId);
-            var toRemove = this.myBookedSlotList.Find(x => x.Id == cancelAtempt.Id);
+            
+            var toRemove = this.myBookedSlotList.Find(x => x.Id == bookingId);
             this.myBookedSlotList.Remove(toRemove);
-            bookable.CancelBooking(cancelAtempt);
+
+            if (toRemove != null ||toRemove.BookableId != null || toRemove.BookableId != Guid.Empty)
+            {
+                var bookable = BookableBroker.GetBookableById(toRemove.BookableId);
+                bookable.CancelBooking(toRemove.BookableId);
+            }
             ConsumerBroker.Save(this);
             return true;
         }

@@ -44,12 +44,11 @@ namespace Bookitweb.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetEvents(DateTime start, DateTime end)
+        public JsonResult GetEvents(DateTime start, DateTime end, string id )
         {
-            var userName = User.Identity.Name;
-            var userId = UserStore.GetId(userName);
+      
 
-            var bookable = BookableBroker.GetBookableById(userId.Value);
+            var bookable = BookableBroker.GetBookableById(Guid.Parse(id));
             var events = bookable.GetBookedSlots(start, end);
 
             var eventList = from e in events

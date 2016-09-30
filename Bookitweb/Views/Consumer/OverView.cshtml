@@ -21,8 +21,8 @@
 
     $(document).ready(
       function () {
-          var cal = new mycalendar("/Consumer/BookEvent/");
-          cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+          var cal = new mycalendar("/Consumer/Getevents/");
+          cal.DisplayConsumerCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
       }
 
 );

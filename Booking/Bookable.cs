@@ -8,7 +8,8 @@ namespace Booking
 {
     public class Bookable
     {
-        public Bookable() { }
+        public Bookable() {
+        }
 
         public Bookable(Guid id)
         {
@@ -27,6 +28,10 @@ namespace Booking
 
         public List<BookedSlot> GetBookedSlots(DateTimeOffset start, DateTimeOffset end)
         {
+            if(this.BookedSlots == null)
+            {
+                return new List<BookedSlot>();
+            }
             return BookedSlots.FindAll(x => x.Start >= start || x.End <= end);
         }
         
@@ -45,6 +50,10 @@ namespace Booking
         {
             if (ValidateBookingSlot(booking))
             {
+                if(this.BookedSlots == null)
+                {
+                    this.BookedSlots = new List<BookedSlot>();
+                }
                 this.BookedSlots.Add(booking);
                 BookableBroker.Save(this);
                 return true;
@@ -52,17 +61,28 @@ namespace Booking
             return false;
         }
 
-        public bool CancelBooking(BookedSlot cancelAtempt)
+        public bool CancelBooking(Guid BookingId)
         {
-            var bookable = BookableBroker.GetBookableById(cancelAtempt.BookableId);
-            var toRemove = this.BookedSlots.Find(x => x.Id == cancelAtempt.Id);
+            if (this.BookedSlots == null)
+            {
+                return true;
+            }
+            var toRemove = this.BookedSlots.Find(x => x.Id == BookingId);
+            if(toRemove == null)
+            {
+                return true;
+            }
             this.BookedSlots.Remove(toRemove);
             BookableBroker.Save(this);
             return true;
         }
 
         private bool ValidateBookingSlot(BookedSlot booking)
-        {
+        {  if (this.BookedSlots == null)
+            {
+                return true;
+            }
+
             foreach (var s in this.BookedSlots)
             {
                 if (s.IsOverLap(booking))

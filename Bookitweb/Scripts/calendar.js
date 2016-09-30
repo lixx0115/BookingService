@@ -7,9 +7,20 @@ var mycalendar = (function () {
     function mycalendar(eventUrl) {
         this.evenUrl = eventUrl;
     }
-    mycalendar.prototype.DisplayCalendar = function (cal, datapicker, modal) {
+    mycalendar.prototype.DisplayConsumerCalendar = function (cal, datapicker, modal) {
         var that = this;
-        this.ShowCalendar(cal);
+        this.ShowConsumerCalendar(cal);
+        modal.click(function (evt) { that.EventCancel(evt, cal); });
+        datapicker.datepicker({
+            onSelect: function (dateText, inst) {
+                var d = new Date(dateText);
+                cal.fullCalendar('gotoDate', d);
+            }
+        });
+    };
+    mycalendar.prototype.DisplayBookableCalendar = function (cal, datapicker, modal) {
+        var that = this;
+        this.ShowBookableCalendar(cal);
         modal.click(function (evt) { that.EventCancel(evt, cal); });
         datapicker.datepicker({
             onSelect: function (dateText, inst) {
@@ -35,7 +46,7 @@ var mycalendar = (function () {
         // change the border color just for fun
         $(this).css('border-color', 'red');
     };
-    mycalendar.prototype.EventSelection = function (start, end, item) {
+    mycalendar.prototype.BookEvent = function (start, end, item) {
         var title = prompt('Event Title:');
         var eventData;
         if (title) {
@@ -45,7 +56,7 @@ var mycalendar = (function () {
                 start: start,
                 end: end
             };
-            $.post(this.evenUrl, { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id }, function (data) {
+            $.post("bookevent", { eventStart: eventData.start.utc().format(), eventEnd: eventData.end.utc().format(), name: eventData.title, id: eventData.id, bookableId: sessionStorage["bookableid"] }, function (data) {
                 $(".result").html(data);
             });
             item.fullCalendar('renderEvent', eventData, true);
@@ -58,7 +69,27 @@ var mycalendar = (function () {
         });
         item.fullCalendar('removeEvents', $('#cancel-event').attr("data-id"));
     };
-    mycalendar.prototype.ShowCalendar = function (item) {
+    mycalendar.prototype.ShowConsumerCalendar = function (item) {
+        var that = this;
+        item.fullCalendar({
+            theme: true,
+            header: {
+                left: '',
+                center: '',
+                right: 'today prev,next'
+            },
+            defaultView: 'agendaDay',
+            editable: true,
+            events: this.evenUrl,
+            selectable: false,
+            selectHelper: false,
+            eventClick: that.EventClickeOn,
+            select: function (start, end) {
+                that.BookEvent(start, end, item);
+            }
+        });
+    };
+    mycalendar.prototype.ShowBookableCalendar = function (item) {
         var that = this;
         item.fullCalendar({
             theme: true,
@@ -74,7 +105,7 @@ var mycalendar = (function () {
             selectHelper: true,
             eventClick: that.EventClickeOn,
             select: function (start, end) {
-                that.EventSelection(start, end, item);
+                that.BookEvent(start, end, item);
             }
         });
     };

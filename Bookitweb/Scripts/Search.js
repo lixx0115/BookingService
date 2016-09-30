@@ -17,15 +17,18 @@ var Searcher = (function () {
                 class: "list-group-item",
                 text: r.Name
             });
-            item.attr("data-id", r.id);
-            item.on("click", Searcher.GoToCalender);
-            item.appendTo('#searchResult');
+            item.attr("data-id", r.Id);
+            item.on("click", function () {
+                Searcher.GoToCalender(r.Id);
+            }),
+                item.appendTo('#searchResult');
         }
     };
-    Searcher.GoToCalender = function () {
+    Searcher.GoToCalender = function (bookableId) {
         $('#searchResult').hide();
-        var cal = new mycalendar("/Consumer/BookEvent/");
-        cal.DisplayCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
+        sessionStorage.setItem("bookableid", bookableId);
+        var cal = new mycalendar("/Bookable/getevents/" + bookableId);
+        cal.DisplayBookableCalendar($("#calendar"), $("#datepicker"), $('#cancel-event'));
     };
     Searcher.ClearDisplay = function () {
         $("#searchResult").empty();
